@@ -1,8 +1,15 @@
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AgentModule } from '@pas/agent-module';
 import { createPasModule } from '@pas/module';
 import { PasServiceNestjsExpressModule } from '@pas/service-nestjs-express-module';
 import { CarInsuranceModule } from './car-insurance/car-insurance.module';
 import defaultConfig from './config/default/config.json';
+
+/**
+ * Largest JSON request body the service accepts. A prompt carries attachments
+ * of up to 10 MB, base64-encoded, which grows to about 14 MB.
+ */
+const JSON_BODY_LIMIT = '15mb';
 
 /**
  * Service entry point.
@@ -33,6 +40,11 @@ import defaultConfig from './config/default/config.json';
       await PasServiceNestjsExpressModule.register({
         cors: true,
         config: { defaultConfig },
+        beforeListenHooks: [
+          (app: NestExpressApplication): void => {
+            app.useBodyParser('json', { limit: JSON_BODY_LIMIT });
+          },
+        ],
       }),
       AgentModule,
       CarInsuranceModule,
