@@ -1,1 +1,13 @@
-{}
+{
+  "agents": {
+    "carInsurance": {
+      "version": "26",
+      "model": {
+        "provider": "universal",
+        "model": "google:gemini-3.8-flash",
+        "streaming": true
+      },
+      "mcpServers": {}
+    }
+  }
+}

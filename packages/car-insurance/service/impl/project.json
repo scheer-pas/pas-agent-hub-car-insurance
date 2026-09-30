@@ -21,7 +21,7 @@
         ],
         "webpackConfig": "packages/car-insurance/service/impl/webpack.config.js",
         "generatePackageJson": true,
-        "runtimeDependencies": ["@langchain/openai"]
+        "runtimeDependencies": ["@langchain/openai", "@langchain/google"]
       },
       "configurations": {
         "development": {
