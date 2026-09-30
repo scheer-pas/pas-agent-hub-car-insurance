@@ -26,8 +26,17 @@ export class ToastService {
    * message.
    */
   public showError(): void {
-    const message =
-      TOAST_MESSAGES[Math.floor(Math.random() * TOAST_MESSAGES.length)];
+    this.show(
+      TOAST_MESSAGES[Math.floor(Math.random() * TOAST_MESSAGES.length)],
+    );
+  }
+
+  /**
+   * Shows an error toast with the given message. Any previously scheduled
+   * auto-hide is cancelled so the full duration applies to the newest message.
+   * @param message The message to show.
+   */
+  public show(message: string): void {
     this.message.set(message);
     clearTimeout(this.timer);
     this.timer = setTimeout(() => this.message.set(null), TOAST_VISIBLE_MS);

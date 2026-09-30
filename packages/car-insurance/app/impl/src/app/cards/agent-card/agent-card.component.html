@@ -1,0 +1,27 @@
+<app-workflow-card
+  #card
+  title="Car Insurance Agent"
+  description="Attach photos, reports, recordings or videos of a car insurance case and ask the agent about them."
+  placeholder="Summarize the damage in the attached files..."
+  [action]="sendMessage"
+  [maxOutputLines]="maxAnswerLines"
+  [sendDisabled]="selection.isReading()"
+>
+  <app-attach-button
+    card-actions
+    [disabled]="card.isAnimating() || selection.isReading()"
+    (filesSelected)="attach($event)"
+  />
+  <app-workflow-animation
+    [step]="card.wfStep()"
+    startIcon="icons/content_easy_creation.svg"
+    middleIcon="icons/ai_sparkle.svg"
+    endIcon="icons/device_desktop.svg"
+  />
+  <app-attachment-list
+    card-details
+    [attachments]="selection.attachments()"
+    [disabled]="card.isAnimating() || selection.isReading()"
+    (removed)="selection.remove($event)"
+  />
+</app-workflow-card>

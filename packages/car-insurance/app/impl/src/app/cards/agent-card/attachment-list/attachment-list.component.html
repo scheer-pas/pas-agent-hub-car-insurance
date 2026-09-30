@@ -1,0 +1,21 @@
+@if (attachments().length > 0) {
+  <ul class="list">
+    @for (attachment of attachments(); track attachment.name) {
+      <li class="entry">
+        <span class="kind">{{ kindLabel(attachment.kind) }}</span>
+        <span class="name" [title]="attachment.name">{{
+          attachment.name
+        }}</span>
+        <button
+          type="button"
+          class="remove"
+          [disabled]="disabled()"
+          [attr.aria-label]="'Remove ' + attachment.name"
+          (click)="removed.emit(attachment.name)"
+        >
+          ×
+        </button>
+      </li>
+    }
+  </ul>
+}

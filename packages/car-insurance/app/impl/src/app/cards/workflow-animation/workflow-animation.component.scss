@@ -1,0 +1,160 @@
+@use '../../styles/shared' as shared;
+
+// One fill of the arrow while a request is in progress.
+$progress-cycle: 1.4s;
+// One change of color when the operating system asks for reduced motion.
+$progress-blink-cycle: 1.2s;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 0 8px;
+}
+
+.icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  background: #ffffff;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease;
+
+  &.frameless {
+    border: none;
+    background: none;
+  }
+
+  .icon {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    filter: shared.$icon-neutral-filter;
+    transition: filter 0.15s ease;
+  }
+
+  &.active {
+    border-color: shared.$color-brand-red;
+
+    .icon {
+      filter: shared.$icon-accent-filter;
+    }
+  }
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  flex: 0 0 38px;
+  width: 38px;
+
+  &::before {
+    content: '';
+    flex: 1;
+    height: 1.5px;
+    background: #c8c8c8;
+    transition: background 0.15s ease;
+  }
+
+  &::after {
+    content: '';
+    flex-shrink: 0;
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 6px solid #c8c8c8;
+    transition: border-left-color 0.15s ease;
+  }
+
+  &.active {
+    &::before {
+      background: shared.$color-brand-red;
+    }
+
+    &::after {
+      border-left-color: shared.$color-brand-red;
+    }
+  }
+
+  // The request is in progress: the arrow fills with the accent color from its
+  // start to its tip, then returns to its normal color, and repeats.
+  &.progress {
+    &::before {
+      background-image: linear-gradient(
+        shared.$color-brand-red,
+        shared.$color-brand-red
+      );
+      background-repeat: no-repeat;
+      background-position: left center;
+      background-size: 0% 100%;
+      animation: progress-fill $progress-cycle ease-in-out infinite;
+    }
+
+    &::after {
+      animation: progress-tip $progress-cycle ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &::before {
+        background-image: none;
+        animation: progress-blink-bar $progress-blink-cycle ease-in-out infinite
+          alternate;
+      }
+
+      &::after {
+        animation: progress-blink-tip $progress-blink-cycle ease-in-out infinite
+          alternate;
+      }
+    }
+  }
+}
+
+@keyframes progress-fill {
+  0% {
+    background-size: 0% 100%;
+  }
+
+  70%,
+  100% {
+    background-size: 100% 100%;
+  }
+}
+
+@keyframes progress-tip {
+  0%,
+  69% {
+    border-left-color: #c8c8c8;
+  }
+
+  70%,
+  100% {
+    border-left-color: shared.$color-brand-red;
+  }
+}
+
+@keyframes progress-blink-bar {
+  from {
+    background-color: #c8c8c8;
+  }
+
+  to {
+    background-color: shared.$color-brand-red;
+  }
+}
+
+@keyframes progress-blink-tip {
+  from {
+    border-left-color: #c8c8c8;
+  }
+
+  to {
+    border-left-color: shared.$color-brand-red;
+  }
+}

@@ -1,0 +1,56 @@
+@use '../../../styles/shared' as shared;
+
+:host {
+  display: contents;
+}
+
+.attach {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  height: 44px;
+  padding: 0 16px;
+  font-family: shared.$font-primary;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: shared.$color-text-primary;
+  background: #ffffff;
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+
+  &:hover {
+    border-color: #aaaaaa;
+    background: #f8f8f8;
+  }
+
+  &:active {
+    background: #eeeeee;
+  }
+
+  &:disabled {
+    color: #aaaaaa;
+    cursor: not-allowed;
+    background: #f0f0f0;
+
+    .icon {
+      opacity: 0.4;
+    }
+  }
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.picker {
+  display: none;
+}

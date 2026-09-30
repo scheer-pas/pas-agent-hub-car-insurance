@@ -1,0 +1,36 @@
+<h2 class="title">{{ title() }}</h2>
+<p class="description">{{ description() }}</p>
+<div class="input-row">
+  <input
+    type="text"
+    [ngModel]="value()"
+    (ngModelChange)="value.set($event)"
+    [placeholder]="placeholder()"
+    class="input"
+    [class.error]="isInputError()"
+    (keydown.enter)="onSend()"
+  />
+  <!-- The consumer projects its own actions, placed before Send. -->
+  <ng-content select="[card-actions]" />
+  <button
+    class="send"
+    (click)="onSend()"
+    [disabled]="isAnimating() || sendDisabled()"
+  >
+    Send
+  </button>
+  <!-- The consumer projects its own flow animation, bound to wfStep. -->
+  <ng-content />
+</div>
+<!-- The consumer projects its own details, placed above the output field. -->
+<ng-content select="[card-details]" />
+<!-- Output field -->
+<div
+  #outputField
+  class="output"
+  [class.highlight]="isOutputHighlight()"
+  [style.max-height.px]="outputMaxHeight()"
+>
+  <span class="label">Output :</span>
+  <span class="text" [class.typing]="isTyping()">{{ output() }}</span>
+</div>

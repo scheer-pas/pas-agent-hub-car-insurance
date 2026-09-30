@@ -1,0 +1,170 @@
+@use '../../styles/shared' as shared;
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+  color: shared.$color-text-primary;
+  margin: 0;
+  padding: 0;
+}
+
+.description {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0.25px;
+  color: shared.$color-text-muted;
+  margin: 0;
+  padding: 0;
+}
+
+// ─── Input row ────────────────────────────────────────────────────────────────
+
+.input-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+
+  .input {
+    flex: 1;
+    font-family: shared.$font-primary;
+    font-weight: 400;
+    font-size: 16px;
+    min-width: 0;
+    height: 44px;
+    padding: 0 12px;
+    background: #f5f5f5;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: #000000;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.15s ease;
+
+    &::placeholder {
+      color: #aaaaaa;
+    }
+
+    &:focus {
+      border-color: #cccccc;
+      background: #eeeeee;
+    }
+
+    &.error {
+      border-color: shared.$color-brand-red;
+      background: #fff0ef;
+    }
+  }
+
+  .send {
+    height: 44px;
+    padding: 12px 24px;
+    background: shared.$color-brand-red;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: #ffffff;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-family: shared.$font-primary;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: shared.$color-brand-red-hover;
+    }
+
+    &:active {
+      background: shared.$color-brand-red-active;
+    }
+
+    &:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ─── Output field ─────────────────────────────────────────────────────────────
+
+.output {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  min-height: 40px;
+  max-height: 240px;
+  overflow-y: auto;
+  box-sizing: border-box;
+
+  // One-shot pulse when the result starts revealing; fades on its own over
+  // 0.8s (matching OUTPUT_HIGHLIGHT_MS in the component).
+  &.highlight {
+    animation: output-highlight 0.8s ease-out;
+  }
+
+  .label {
+    font-family: shared.$font-mono;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    color: shared.$color-text-muted;
+    flex-shrink: 0;
+  }
+
+  .text {
+    font-family: shared.$font-mono;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    color: shared.$color-text-muted;
+    word-break: break-word;
+    // Keeps the line breaks of a streamed answer.
+    white-space: pre-wrap;
+    flex: 1;
+
+    // Blinking cursor shown while the typewriter animation is active.
+    &.typing::after {
+      content: '|';
+      color: shared.$color-brand-red;
+      animation: blink-cursor 0.8s step-start infinite;
+      margin-left: 1px;
+    }
+  }
+}
+
+@keyframes blink-cursor {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes output-highlight {
+  0% {
+    box-shadow: 0 0 0 3px rgba(shared.$color-brand-red, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 3px rgba(shared.$color-brand-red, 0);
+  }
+}

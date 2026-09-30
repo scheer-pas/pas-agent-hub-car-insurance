@@ -1,0 +1,15 @@
+<div class="icon-box frameless" [class.active]="step() >= 0">
+  <img class="icon" [src]="startIcon()" alt="" />
+</div>
+<span
+  class="line"
+  [class.active]="step() >= 2"
+  [class.progress]="step() === 0"
+></span>
+<div class="icon-box frameless" [class.active]="step() >= 2">
+  <img class="icon" [src]="middleIcon()" alt="" />
+</div>
+<span class="line" [class.active]="step() >= 4"></span>
+<div class="icon-box frameless" [class.active]="step() >= 4">
+  <img class="icon" [src]="endIcon()" alt="" />
+</div>

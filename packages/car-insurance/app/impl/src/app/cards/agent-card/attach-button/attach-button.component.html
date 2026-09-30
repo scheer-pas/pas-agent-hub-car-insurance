@@ -1,0 +1,17 @@
+<button
+  type="button"
+  class="attach"
+  [disabled]="disabled()"
+  (click)="openPicker()"
+>
+  <img class="icon" src="icons/attach_file.svg" alt="" />
+  Attach
+</button>
+<input
+  #picker
+  type="file"
+  class="picker"
+  multiple
+  [accept]="acceptedFileTypes"
+  (change)="onFilesPicked(picker)"
+/>

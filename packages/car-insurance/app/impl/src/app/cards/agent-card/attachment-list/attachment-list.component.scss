@@ -1,0 +1,67 @@
+@use '../../../styles/shared' as shared;
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .entry {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    height: 32px;
+    padding: 0 4px 0 10px;
+    background: #ffffff;
+    border: 1px solid #d8d8d8;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: shared.$font-primary;
+    font-size: 14px;
+    line-height: 20px;
+    color: shared.$color-text-primary;
+  }
+
+  .kind {
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: shared.$color-brand-red;
+  }
+
+  .name {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .remove {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    font-size: 18px;
+    line-height: 22px;
+    color: shared.$color-text-muted;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background: #f0f0f0;
+      color: shared.$color-text-primary;
+    }
+
+    &:disabled {
+      color: #cccccc;
+      cursor: not-allowed;
+      background: transparent;
+    }
+  }
+}
