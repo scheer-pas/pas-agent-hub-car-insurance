@@ -1,0 +1,90 @@
+{
+  "name": "car-insurance-service",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/car-insurance/service/impl/src",
+  "projectType": "application",
+  "tags": ["pas-service"],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/packages/car-insurance/service/impl",
+        "main": "packages/car-insurance/service/impl/src/main.ts",
+        "tsConfig": "packages/car-insurance/service/impl/tsconfig.app.json",
+        "assets": [
+          "packages/car-insurance/service/impl/src/assets",
+          "packages/car-insurance/service/impl/src/config"
+        ],
+        "webpackConfig": "packages/car-insurance/service/impl/webpack.config.js",
+        "generatePackageJson": true,
+        "runtimeDependencies": ["@langchain/openai"]
+      },
+      "configurations": {
+        "development": {
+          "outputHashing": "none"
+        },
+        "production": {}
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/car-insurance/service/impl/package.json",
+        "{workspaceRoot}/dist/packages/car-insurance/service/impl/package-lock.json"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/dist/packages/car-insurance/service/impl/workspace_modules"
+      ],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "car-insurance-service:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "car-insurance-service:build:development"
+        },
+        "production": {
+          "buildTarget": "car-insurance-service:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/car-insurance/service/impl/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
